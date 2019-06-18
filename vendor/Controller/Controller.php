@@ -1,0 +1,6 @@
+<?
+namespace Controller;
+class Controller{
+
+}
+?>

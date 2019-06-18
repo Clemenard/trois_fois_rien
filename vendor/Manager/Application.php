@@ -4,7 +4,7 @@ final class Application{
   private $controller;
   private $action;
   private $argument='';
-}
+
 
 public function __construct(){
   $tab=explode('/',$_SERVER['REQUEST_URI']);
@@ -19,10 +19,23 @@ public function __construct(){
   }
   else{
     $this->controller =  'Controller\ProduitController';
-    $this->action = all();
+    $this->action = 'all';
   }
 }
 
+public function run(){
+  if(!is_null($this->controller)){
+    $a=new $this->controller;
+    if(!is_null($this->action) && method_exists($a,$this->action)){
+      $action=$this->action;
+      $a->$action($this->argument);
+    }
+    else{
+      require __DIR__.'/../../src/View/404.html';
+    }
+  }
+}
+}
 
 
 ?>

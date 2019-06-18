@@ -14,16 +14,12 @@ class Autoload{
 
 // j'indique la méthode qui va se déclencher au moment d'un new (La méthode doit être statique)
 spl_autoload_register(array('Autoload','inclusion_automatique'));
-require_once('functions.php');
 date_default_timezone_set('Europe/Paris');
 
-// Session
-session_start();
 
 
 
 // Constantes de site
-define('URL','/boutique_oo/');
 define('SALT','Comp!iqu3');
 
 // Initialisation de variables

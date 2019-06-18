@@ -6,10 +6,10 @@ class Config {
     require __DIR__.'Config/parameters.php';
     $this->parameters = $parameters;
 
-    public function get_parameters_connect(){
+    public function getParametersConnect(){
       return $this->parameters['connect'];
     }
-    public function get_parameters_uri(){
+    public function getParametersUri(){
       return $this->parameters['uri'];
     }
   }
