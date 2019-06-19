@@ -70,7 +70,7 @@ public function insert($infos){
 
 public function update($id,$infos){
   foreach($infos as $values){
-    $newValues[]="$key = :$key"
+    $newValues[]="$key = :$key";
   }
 $infos['id']=$id;
   $q=$this->getDb()->execRequest('UPDATE '.$this->table.' SET '.implode(',',$newValues) .' WHERE id_'.$this->table.' = :id',$infos);

@@ -1,5 +1,5 @@
 <?
 namespace Model;
-abstract class MembreModel extends Model{
+ class MembreModel extends Model{
 }
 ?>

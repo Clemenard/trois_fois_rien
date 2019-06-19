@@ -1,6 +1,6 @@
 <?
 namespace Model;
-abstract class ProduitModel extends Model{
+ class ProduitModel extends Model{
 
   public function selectAllProduit($order=null){
     return $this->selectAll($order=null);
@@ -38,7 +38,7 @@ abstract class ProduitModel extends Model{
   }
 
   public function getAllProduitsByCategories($cat){
-    $q=$this->getDb()->execRequest('SELECT * FROM '.$this->table.' WHERE categorie=:cat',array('cat'=:$cat));
+    $q=$this->getDb()->execRequest('SELECT * FROM '.$this->table.' WHERE categorie=:cat',array('cat'=>$cat));
     $donnes=$q->fetchAll();
     if(!empty($data)){
       return false;
@@ -52,12 +52,13 @@ abstract class ProduitModel extends Model{
         "OR LOWER (categorie) LIKE CONCAT('%',:term,'%') ".
         "OR LOWER (description) LIKE CONCAT('%',:term,'%')" .
         "OR LOWER (couleur) LIKE CONCAT('%',:term,'%')" ,
-        array('term'=:$term));
+        array('term'=>$term));
         $data=$q->fetch(PDO::FETCH_CLASS,'Entity\\'.ucfirst($this->table));
         if(!empty($data)){
           return false;
         }
         else{
         return $data;}
+}
 }
 ?>
