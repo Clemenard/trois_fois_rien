@@ -2,7 +2,7 @@
 class Autoload{
   public static function inclusion_automatique($className){
     $tab = explode('\\',$className);
-    if($tab[0]=='Manager'|| ($tab[0]=='Model' && $tab[1]=='Model') || ($tab[0]=='Controller' && $tab[1]=='Controller')){
+    if($tab[0]=='Manager'|| ($tab[0]=='Model' && $tab[1]=='Model') || ($tab[0]=='Controller' && $tab[1]=='Controller')|| ($tab[0]=='Entity' && $tab[1]=='Entity')){
         $path= __DIR__ .'/' . implode('/',$tab) . '.php';
     }
     else{

@@ -1,0 +1,47 @@
+<div class="row">
+
+    <div class="col-sm-3">
+        <div class="list-group">
+            <p class="list-group-item text-center">CATEGORIES</p>
+            <a href="<?= $url ?>produit/all" class="list-group-item <?= (!isset($selected)) ? 'active' : '' ?>">Toutes</a>
+            <?php foreach($categories as $cat) : ?>
+                <a class="list-group-item <?= (isset($selected) && $selected == $cat['categorie']) ? 'active' : '' ?>" href="<?= $url ?>produit/afficheCategorie/<?= $cat['categorie'] ?>"><?= ucfirst($cat['categorie']) ?></a>
+            <?php endforeach; ?>
+
+        </div>
+
+    </div>
+    <div class="col-sm-9">
+        <div class="jumbotron">
+            <h1>Bienvenue sur notre boutique !!</h1>
+            <p>De nouveaux articles sont arrivés!</p>
+        </div>
+        <div class="row">
+
+            <?php foreach($produits as $produit) : ?>
+            <div class="col-6 col-md-4">
+                <div class="card mt-3 border">
+                    <div class="card-body">
+                        <div class="card-title text-center">
+                            <h2><?= $produit->getField('titre') ?></h2>
+                        </div>
+                        <p>
+                            <a href="<?= $url ?>produit/affiche/<?= $produit->getField('id_produit') ?>">
+                                <img src="<?= $url ?>photo/<?= $produit->getField('photo') ?>" alt="" class="card-img img-fluid">
+                            </a>
+                        </p>
+                        <p class="text-center"><?= $produit->getField('prix') ?> €
+                        </p>
+                        <p class="text-center">
+                            <a class="btn btn-primary" href="<?= $url ?>produit/affiche/<?= $produit->getField('id_produit') ?>">Voir les détails &raquo; </a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <?php endforeach; ?>
+
+        </div>
+
+    </div>
+
+</div>

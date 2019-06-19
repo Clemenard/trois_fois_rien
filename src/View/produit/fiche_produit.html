@@ -1,0 +1,45 @@
+<div class="row">
+
+    <div class="col-md-6 offset-md-2">
+        <?php if (!empty($message)): ?>
+            <div class="alert alert-success">
+            <?= $message ?><p><a href="<?= $url ?>produit/panier">Voir le Panier</a></p>
+            </div>
+        <?php endif; ?>
+        <div class="card border">
+            <div class="card-body">
+                <div class="card-title text-center">
+                    <h2><?= $produit->getField('titre') ?></h2>
+                </div>
+                <img src="<?= $url ?>photo/<?= $produit->getField('photo') ?>" alt="" class="card-img img-fluid"><hr>
+
+                <p class="text-center">Catégorie : <?= $produit->getField('categorie') ?></p>
+                <p class="text-center">Couleur : <?= $produit->getField('couleur') ?></p>
+                <p class="text-center">Taille : <?= $produit->getField('taille') ?></p>
+                <p class="text-center">Description : <?= $produit->getField('description') ?></p>
+                <p class="text-center">Prix : <?= $produit->getField('prix') ?> €</p><hr>
+                <?php if ( $produit->getField('stock') > 0 ) :?>
+                    <em>Nombre de produit(s) disponible(s) : <?= $produit->getField('stock') ?></em><hr>
+                    <form method="post" action="">
+                        <input type="hidden" name="id_produit" value="<?= $produit->getField('id_produit') ?>">
+
+                        <label for="quantite">Quantité</label>
+                        <select class="form-control" id="quantite" name="quantite">
+                            <?php
+                                for($i=1; $i<=$produit->getField('stock') && $i<=5; $i++ ): ?>
+                                <option><?= $i ?></option>  
+                            <?php endfor; ?>    
+                        </select><br>
+                        <input type="submit" class="btn btn-primary col-12" name="ajout_panier" value="Ajout au panier">
+                    </form>
+                <?php else : ?>
+                    <div class="alert alert-danger text-center">
+                        Produit victime de son succès (indisponible)
+                    </div>
+                <?php endif; ?>
+            </div>
+        </div>
+    </div>
+    <!-- on prévoit un encart de produits suggérés-->
+
+</div>    

@@ -21,6 +21,10 @@ public function __construct(){
     $this->controller =  'Controller\ProduitController';
     $this->action = 'all';
   }
+  if(!empty($tab[5])) {
+    $this->argument = $tab[5];
+  }
+
 }
 
 public function run(){

@@ -1,0 +1,54 @@
+<h2><?= $title ?></h2>
+<?php
+
+if ($_SESSION['membre'] && $_SESSION['membre']->isAdmin()):
+?>
+    <a href="<?= $url ?>produit/ajoutProduit" class="btn btn-primary">Ajouter un produit</a>
+
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Ref.</th>
+                    <th>Categ</th>
+                    <th>Titre</th>
+                    <th>Description</th>
+                    <th>Couleur</th>
+                    <th>Taille</th>
+                    <th>Public</th>
+                    <th>Photo</th>
+                    <th>Prix</th>
+                    <th>Stock</th>
+                    <th colspan="2">Actions</th>
+                </tr>                
+            </thead>
+            <tbody>
+                <?php foreach($produits as $produit) :
+                        $champs = $produit->getFields(); 
+                        ?>
+                    <tr>
+                        <?php
+                        foreach($champs as $index => $value)
+                        {
+                            if ($index == 'photo') {
+                                $value = '<img src="'. $url .'photo/'. ($produit->getField('photo')) .'" class="thumbnail img-fluid">';
+                            }
+                          ?>
+                          <td><?= $value ?></td>
+                          <?php  
+                        }
+                        ?>
+                        <td><a href="<?= $url ?>produit/editProduit/<?= $produit->getField('id_produit') ?>"><i class="fa fa-edit"></i></a></td>
+                        <td><a href="<?= $url ?>produit/suppProduit/<?= $produit->getField('id_produit') ?>" onclick="return(confirm('Etes vous sûr de vouloir supprimer ce produit ?'))"><i class="fa fa-trash"></i></a></td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+
+
+<?php
+endif;
+
+

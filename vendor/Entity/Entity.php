@@ -4,7 +4,7 @@ abstract class Entity{
 
 
 public function getField($propriete){
-$this->$propriete;
+return $this->$propriete;
 }
 
 public function setField($propriete,$value){

@@ -18,7 +18,7 @@ public function redirect($adresse){
 }
 public function render($layout,$view,$params){
   $dirView = __DIR__.'/../../src/View/';
-  $dirFile = $this->getModel()->getTableName;
+  $dirFile = $this->getModel()->getTable();
   $pathView=$dirView.$dirFile.'/'.$view;
   $pathLayout=$dirView.$layout;
   $params['url']=$this->url;
@@ -26,7 +26,7 @@ public function render($layout,$view,$params){
   if(isset($_SESSION['panier']) && count($_SESSION['panier']['id_produit']>0)){
   $params['nb']=array_sum($_SESSION['panier']['quantite']);
   }
-  extract('params');
+  extract($params);
   ob_start();
   require $pathView;
   $content=ob_get_clean();

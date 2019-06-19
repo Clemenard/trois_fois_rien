@@ -1,0 +1,22 @@
+<h1><?= $title ?></h1>
+<?php if ($produits !== false) : ?>
+    <p>Nous avons trouvé <?= $nbresult ?> produit(s)</p>
+    <div class="row">
+        <?php foreach($produits as $produit) : ?>
+        <!-- vignette -->
+            <div class="col-sm-4 card mt-1 text-center">
+                <h2><?= $produit->getField('titre') ?></h2>
+                <a href="<?= $url ?>produit/affiche/<?= $produit->getField('id_produit') ?>">
+                    <img src="<?= $url ?>photo/<?= $produit->getField('photo') ?>" alt="" class="card-img img-fluid">
+                </a>
+                <p class="text-center"><?= $produit->getField('prix') ?> €</p>
+                <a href="<?= $url ?>produit/affiche/<?= $produit->getField('id_produit') ?>" class="btn btn-primary">Voir la fiche</a>
+            </div>
+        <!-- fin vignette -->
+        <?php endforeach; ?>
+    </div>
+<?php else : ?>
+   <div class="alert alert-warning">
+       Aucun résultat !
+   </div>
+<?php endif; ?>
