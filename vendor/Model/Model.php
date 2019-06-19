@@ -63,18 +63,17 @@ public function delete($id){
   $q=$this->getDb()->execRequest('DELETE FROM '.$this->table.' WHERE id_'.$this->table.' = :id',array('id'=>$id));
 }
 
-public function insert(){
-  $q=$this->getDb()->execRequest('INSERT INTO '.$this->table.' ('.implode(',', array_keys($_POST)).') VALUES (:'.implode(',:', array_keys($_POST)).')',$_POST);
+public function insert($infos){
+  $q=$this->getDb()->execRequest('INSERT INTO '.$this->table.' ('.implode(',', array_keys($infos)).') VALUES (:'.implode(',:', array_keys($infos)).')',$_POST);
   return $this->getDb()->lastInsertId();
 }
 
-public function update(){
-  $c=array();
-  foreach($_POST as $key=>$value){
-    $c[]=$key.'=:'.$key;
-    }
-$_POST['id']=$_GET['id'];
-  $q=$this->getDb()->execRequest('UPDATE '.$this->table.' SET '.implode(',',$c) .' WHERE id_'.$this->table.' = :id',$_POST);
+public function update($id,$infos){
+  foreach($infos as $values){
+    $newValues[]="$key = :$key"
+  }
+$infos['id']=$id;
+  $q=$this->getDb()->execRequest('UPDATE '.$this->table.' SET '.implode(',',$newValues) .' WHERE id_'.$this->table.' = :id',$infos);
 }
 
 public function deleteAll(){
