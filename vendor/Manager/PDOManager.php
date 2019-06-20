@@ -14,7 +14,7 @@ class PDOManager{
     }
 
     public function getPdo(){
-      require __DIR__.'/../../app/Config.php';
+      require_once __DIR__.'/../../app/Config.php';
       $config = new Config;
       $connect = $config->getParametersConnect();
       return new PDO(

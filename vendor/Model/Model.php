@@ -73,7 +73,7 @@ public function insert($infos){
 }
 
 public function update($id,$infos){
-  foreach($infos as $values){
+  foreach($infos as $key=>$values){
     $newValues[]="$key = :$key";
   }
 $infos['id']=$id;

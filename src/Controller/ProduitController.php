@@ -19,12 +19,13 @@ class ProduitController extends Controller{
     }
   }
 
-  public function suppProduit($id){
+  public function supprProduit($id){
     if(isset($_SESSION['membre']) && $_SESSION['membre']->isAdmin()){
     $this->getModel()->delete($id);
     $params=array(
       'title'=>'Admin Produits',
       'produits'=> $this->getModel()->selectAllProduit(),
+      'produit_actuel'=>$_POST
     );
 
       return $this->render('layout.html','adminProduit.html',$params);}
@@ -34,8 +35,76 @@ class ProduitController extends Controller{
         }
         else
       {$this->redirect($this->url.'membre/connexion');}
-      }
+    }
   }
+public function editProduit($id){
+  if(isset($_SESSION['membre']) && $_SESSION['membre']->isAdmin()){
+    $erreur = array();
+    if(!empty($_POST)){
+
+      $champsvides = 0;
+      foreach($_POST as $value){
+        if(empty($value)) $champsvides++;
+      }
+      if($champsvides>0){
+        $erreur[] = 'Merci de remplir '.$champvides.' champ(s) manquant(s)';
+      }
+
+      if(empty($erreur)){
+      $this->copyPhoto();
+      $this->getModel()->update($id,$_POST);
+      $this->redirect($this->url.'produit/adminProduit');
+    }
+  }
+  $produit=$this->getModel()->select($id);
+  $params['title'] = "Modification d'un produit";
+  $params['erreur'] = (!empty($erreur)) ? implode('<br>',$erreur) : '';
+
+  $params['produit_actuel'] = (!empty($_POST)) ? $_POST : $this->getModel()->select($id)->getFields() ;
+
+  $params['produit_actuel']['photo'] = $this->getModel()->select($id)->getField('photo');
+
+    return $this->render('layout.html','ajoutProduit.html',$params);}
+    else{
+      if(isset($_SESSION['membre'])){
+        $this->redirect($this->url);
+      }
+      else
+    {$this->redirect($this->url.'membre/connexion');}
+  }
+}
+
+
+    public function ajoutProduit(){
+      if(isset($_SESSION['membre']) && $_SESSION['membre']->isAdmin()){
+        $erreur = array();
+        if(!empty($_POST)){
+          $champsvides = 0;
+          foreach($_POST as $value){
+            if(empty($value)) $champsvides++;
+          }
+          if($champsvides>0){
+            $erreur[] = 'Merci de remplir '.$champvides.' champ(s) manquant(s)';
+          }
+          if(empty($erreur)){
+          $this->copyPhoto();
+          $this->getModel()->insert($_POST);
+          $this->redirect($this->url.'/produit/adminProduit');
+        }}
+        $params=array(
+          'title'=>'Ajout d\'un produit',
+          'erreurs'=>(!empty($erreur)) ? implode('<br>',$erreur) : '',
+          'produit_actuel'=>$_POST
+        );
+            return $this->render('layout.html','ajoutProduit.html',$params);}
+        else{
+          if(isset($_SESSION['membre'])){
+            $this->redirect($this->url);
+          }
+          else
+        {$this->redirect($this->url.'membre/connexion');}
+        }
+    }
 
   public function all(){
     $produits = $this->getModel()->selectAllProduit();
@@ -131,6 +200,16 @@ else{
       $_SESSION['panier']['prix'][]=$this->getModel()->selectProduit($id_produit)->getField('prix');
       $_SESSION['panier']['quantite'][]=$quantite;
     }
+  }
+
+  public function copyPhoto(){
+    if(!empty($_FILES['photo']['name'])){
+      $nom = $_POST['reference'].'_'.$_FILES['photo']['name'];
+      $_POST['photo']=$nom;
+      $pathPhoto = __DIR__. '/../../web/photo/'.$nom;
+      move_uploaded_file($_FILES['photo']['tmp_name'],$pathPhoto);
+    }
+
   }
 }
 ?>

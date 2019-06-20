@@ -45,7 +45,7 @@ if ($_SESSION['membre'] && $_SESSION['membre']->isAdmin()):
 
                 <?php
                     if (isset($produit_actuel['photo']) ) : ?>
-                    <img src="<?= $url ?>photo/<?= $produit_actuel['photo'] ?>" class="thumbnail img-fluid"> 
+                    <img src="<?= $url ?>photo/<?= $produit_actuel['photo'] ?>" class="thumbnail img-fluid">
                 <?php
                     endif;
                 ?>
@@ -57,10 +57,10 @@ if ($_SESSION['membre'] && $_SESSION['membre']->isAdmin()):
 
                 <label for="stock">Stock</label>
                 <input type="number" name="stock" id="stock" value="<?= $produit_actuel['stock'] ?? '' ?>" class="form-control">
-            </div>   
+            </div>
         </div>
 
-        <div class="row">        
+        <div class="row">
             <div class="col-12 text-center">
                 <input type="submit" class="btn btn-primary" value="Enregistrer le produit">
             </div>
@@ -71,5 +71,3 @@ if ($_SESSION['membre'] && $_SESSION['membre']->isAdmin()):
 <?php
 endif;
 ?>
-
-
