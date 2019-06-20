@@ -1,6 +1,42 @@
 <?
 namespace Controller;
 class ProduitController extends Controller{
+
+  public function adminProduit(){
+    if(isset($_SESSION['membre']) && $_SESSION['membre']->isAdmin()){
+      $params=array(
+        'title'=>'Admin Produits',
+        'produits'=> $this->getModel()->selectAllProduit(),
+      );
+          return $this->render('layout.html','adminProduit.html',$params);
+    }
+    else{
+      if(isset($_SESSION['membre'])){
+        $this->redirect($this->url);
+      }
+      else
+    {$this->redirect($this->url.'membre/connexion');}
+    }
+  }
+
+  public function suppProduit($id){
+    if(isset($_SESSION['membre']) && $_SESSION['membre']->isAdmin()){
+    $this->getModel()->delete($id);
+    $params=array(
+      'title'=>'Admin Produits',
+      'produits'=> $this->getModel()->selectAllProduit(),
+    );
+
+      return $this->render('layout.html','adminProduit.html',$params);}
+      else{
+        if(isset($_SESSION['membre'])){
+          $this->redirect($this->url);
+        }
+        else
+      {$this->redirect($this->url.'membre/connexion');}
+      }
+  }
+
   public function all(){
     $produits = $this->getModel()->selectAllProduit();
     $categories = $this->getModel()->getAllCategories();

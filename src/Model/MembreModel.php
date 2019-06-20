@@ -27,13 +27,14 @@ use PDO;
    }
 
 public function existsPseudo($pseudo){
-$request = "SELECT * FROM".$this->table." WHERE pseudo =:pseudo";
+$request = "SELECT * FROM ".$this->table." WHERE pseudo =:pseudo";
 $resultat=$this->getDb()->prepare($request);
 $resultat->bindValue(':pseudo',$pseudo,PDO::PARAM_STR);
+$resultat->execute();
 $resultat->setFetchMode(PDO::FETCH_CLASS,'Entity\\'.$this->table );
 $data=$resultat->fetch();
-if($data){return $data;}
-else{return false;}
+if($data) return $data;
+else return false;
 }
 
 

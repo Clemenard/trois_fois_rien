@@ -8,7 +8,7 @@ final class Application{
 
 public function __construct(){
   $tab=explode('/',$_SERVER['REQUEST_URI']);
-  if(!empty($tab[3]) && file_exists(__DIR__ . '../../src/Controller/'.ucfirst($tab[3]).'Controller.php')){
+  if(!empty($tab[3]) && file_exists(__DIR__ . '/../../src/Controller/'.ucfirst($tab[3]).'Controller.php')){
     $this->controller = 'Controller\\'.ucfirst($tab[3]).'Controller';
   }
   else{
@@ -31,11 +31,6 @@ public function run(){
 
   if(!is_null($this->controller)){
     $a=new $this->controller;
-      // echo $this->controller.' '.$this->action;
-      // echo " <br />";
-
-      var_dump (get_class_methods('Controller/ProduitController'));
-      // if(!method_exists($a,$this->action)){echo 'bug';}
     if(!is_null($this->action) && method_exists($a,$this->action)){
       $action=$this->action;
       $a->$action($this->argument);

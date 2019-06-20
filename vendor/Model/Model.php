@@ -28,7 +28,7 @@ public function execRequest($req,$params=array()){
   }
   $r->execute();
   if ( !empty( $r->errorInfo()[2] )){
-    die('Erreur rencontrée - merci de contacter l\'administrateur');
+    die('Erreur rencontrée - merci de contacter l\'administrateur '.$r->errorInfo()[2]);
   }
   return $r;
 }
@@ -68,7 +68,7 @@ public function delete($id){
 }
 
 public function insert($infos){
-  $q=$this->execRequest('INSERT INTO '.$this->table.' ('.implode(',', array_keys($infos)).') VALUES (:'.implode(',:', array_keys($infos)).')',$_POST);
+  $q=$this->execRequest('INSERT INTO '.$this->table.' ('.implode(',', array_keys($infos)).') VALUES (:'.implode(', :', array_keys($infos)).')',$infos);
   return $this->getDb()->lastInsertId();
 }
 
