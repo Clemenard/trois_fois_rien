@@ -22,14 +22,20 @@ public function __construct(){
     $this->action = 'all';
   }
   if(!empty($tab[5])) {
-    $this->argument = $tab[5];
+    $this->argument = urldecode($tab[5]);
   }
 
 }
 
 public function run(){
+
   if(!is_null($this->controller)){
     $a=new $this->controller;
+      // echo $this->controller.' '.$this->action;
+      // echo " <br />";
+
+      var_dump (get_class_methods('Controller/ProduitController'));
+      // if(!method_exists($a,$this->action)){echo 'bug';}
     if(!is_null($this->action) && method_exists($a,$this->action)){
       $action=$this->action;
       $a->$action($this->argument);

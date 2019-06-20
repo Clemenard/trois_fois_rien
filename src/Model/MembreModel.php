@@ -14,7 +14,7 @@ use PDO;
      return $this->delete($id);
    }
 
-   public function insertMembre($infos){
+   public function inscription($infos){
      return $this->insert($infos);
    }
 
@@ -26,9 +26,16 @@ use PDO;
    return $this->deleteAll();
    }
 
-public function connexion(){
-
+public function existsPseudo($pseudo){
+$request = "SELECT * FROM".$this->table." WHERE pseudo =:pseudo";
+$resultat=$this->getDb()->prepare($request);
+$resultat->bindValue(':pseudo',$pseudo,PDO::PARAM_STR);
+$resultat->setFetchMode(PDO::FETCH_CLASS,'Entity\\'.$this->table );
+$data=$resultat->fetch();
+if($data){return $data;}
+else{return false;}
 }
+
 
 }
 ?>
