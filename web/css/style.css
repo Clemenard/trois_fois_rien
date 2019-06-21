@@ -4,3 +4,6 @@ body{
 .main-container{
   min-height:calc(100vh - 136px);
 }
+.bg-dark{
+  color : lightgrey!important;
+}

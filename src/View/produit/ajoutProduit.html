@@ -41,6 +41,7 @@ if ($_SESSION['membre'] && $_SESSION['membre']->isAdmin()):
                     <option  <?= ( isset($produit_actuel['public']) && $produit_actuel['public'] == 'm' ) ? 'selected' : '' ?> value="m">Homme</option>
                     <option <?= ( isset($produit_actuel['public']) && $produit_actuel['public'] == 'f' ) ? 'selected' : '' ?> value="f">Femme</option>
                     <option <?= ( isset($produit_actuel['public']) && $produit_actuel['public'] == 'mixte' ) ? 'selected' : '' ?>value="mixte">Mixte</option>
+                    <option <?= ( isset($produit_actuel['public']) && $produit_actuel['public'] == 'alien' ) ? 'selected' : '' ?>value="alien">Alien</option>
                 </select>
 
                 <?php

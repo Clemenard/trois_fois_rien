@@ -21,11 +21,11 @@ if ($_SESSION['membre'] && $_SESSION['membre']->isAdmin()):
                     <th>Prix</th>
                     <th>Stock</th>
                     <th colspan="2">Actions</th>
-                </tr>                
+                </tr>
             </thead>
             <tbody>
                 <?php foreach($produits as $produit) :
-                        $champs = $produit->getFields(); 
+                        $champs = $produit->getFields();
                         ?>
                     <tr>
                         <?php
@@ -34,9 +34,12 @@ if ($_SESSION['membre'] && $_SESSION['membre']->isAdmin()):
                             if ($index == 'photo') {
                                 $value = '<img src="'. $url .'photo/'. ($produit->getField('photo')) .'" class="thumbnail img-fluid">';
                             }
+                            if ($index == 'description' && strlen($value)>75) { ?><td class='desc-produit'><?= substr($value,0,75).' ...' ?></td><?
+
+                            }
+                            else{
                           ?>
-                          <td><?= $value ?></td>
-                          <?php  
+                          <td class='desc-produit'><?= $value ?></td><? }
                         }
                         ?>
                         <td><a href="<?= $url ?>produit/editProduit/<?= $produit->getField('id_produit') ?>"><i class="fa fa-edit"></i></a></td>
@@ -50,5 +53,3 @@ if ($_SESSION['membre'] && $_SESSION['membre']->isAdmin()):
 
 <?php
 endif;
-
-
