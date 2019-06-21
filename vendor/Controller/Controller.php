@@ -14,7 +14,7 @@ public function getModel(){
   return $this->model;
 }
 public function redirect($adresse){
-  header('location;'.$adresse);
+  header('location:'.$adresse);
 }
 public function render($layout,$view,$params){
   $dirView = __DIR__.'/../../src/View/';

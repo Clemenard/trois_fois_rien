@@ -2,6 +2,31 @@
 namespace Controller;
 class MembreController extends Controller{
 
+  public function adminMembre(){
+
+    // tester si je suis admin
+    if(isset($_SESSION['membre']) && $_SESSION['membre']->isAdmin()){
+      $params['title'] = 'Admin Membres';
+      $params['membres'] = $this->getModel()->selectAll();
+      return $this->render('layout.html','adminMembre.html',$params);
+    }
+    else{
+      $this->redirect($this->url . 'membre/connexion');
+    }
+  }
+
+  public function editStatut($id){
+    if( isset($_SESSION['membre']) && $_SESSION['membre']->isAdmin() ){
+$membre=$this->getModel()->select($id);
+$statut =($membre->getField('statut')==0) ? 1 : 0;
+      $this->getModel()->update($id,array('statut'=>$statut));
+      $this->redirect($this->url . 'membre/adminMembre');
+    }
+    else{
+      $this->redirect($this->url . 'membre/connexion');
+    }
+  }
+
 public function connexion(){
   if(isset($_SESSION['membre'])) {
     $this->redirect($this->url);
