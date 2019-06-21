@@ -1,5 +1,7 @@
 <h2><?= $title ?></h2>
-
+<?php if (!empty($erreur) ) : ?>
+    <div class="alert alert-danger"><?= $erreur ?></div>
+<?php endif; ?>
 <div class="row">
     <!-- zone à gauche -->
     <div class="col-sm-6 border">
@@ -7,7 +9,7 @@
     <?php
     /* 4 je tiens compte de mon indicateur action pour afficher le formulaire d'édition */
 
-    if ( isset($action) && $action == 'editcoord') :
+    if ( isset($action) && $action == 'coord') :
     ?>
     <form action="" method="post">
         <div class="form-row">
@@ -17,12 +19,12 @@
             </div>
             <div class="form-group col-6">
             <label for="prenom">Prénom</label>
-            <input class="form-control" type="text"  name="prenom" id="prenom" value="<?= $_SESSION['membre']->getField('prenom') ?>">        
+            <input class="form-control" type="text"  name="prenom" id="prenom" value="<?= $_SESSION['membre']->getField('prenom') ?>">
             </div>
         </div>
         <div class="form-group">
                 <label for="adresse">Adresse</label>
-                <input class="form-control" type="text"  name="adresse" id="adresse" value="<?= $_SESSION['membre']->getField('adresse') ?>">        
+                <input class="form-control" type="text"  name="adresse" id="adresse" value="<?= $_SESSION['membre']->getField('adresse') ?>">
         </div>
         <div class="form-row">
                 <div class="form-group col-3">
@@ -31,7 +33,7 @@
                 </div>
                 <div class="form-group col-9">
                 <label for="ville">Ville</label>
-                <input class="form-control" type="text"  name="ville" id="ville" value="<?= $_SESSION['membre']->getField('ville') ?>">        
+                <input class="form-control" type="text"  name="ville" id="ville" value="<?= $_SESSION['membre']->getField('ville') ?>">
                 </div>
         </div>
         <br>
@@ -41,7 +43,7 @@
 
     <?php
 
-    /* sinon je suis en consultation simple de mon profil */ 
+    /* sinon je suis en consultation simple de mon profil */
     else : ?>
     <p>
         Nom, Prénom : <?= $_SESSION['membre']->getField('nom').' '.$_SESSION['membre']->getField('prenom') ?>
@@ -50,7 +52,7 @@
     <p>
         <adress>
             <?= $_SESSION['membre']->getField('adresse') ?><br>
-            <?= $_SESSION['membre']->getField('code_postal') ?>  <?= $_SESSION['membre']->getField('ville') ?> 
+            <?= $_SESSION['membre']->getField('code_postal') ?>  <?= $_SESSION['membre']->getField('ville') ?>
         </adress>
     </p>
     <!-- 1 / ajout d'un lien permettant l'édition
@@ -64,13 +66,13 @@
     <div class="col-sm-6 border">
         <h3>Identification</h3>
         <p>
-             Pseudo : <?= $_SESSION['membre']->getField('pseudo'); ?> 
+             Pseudo : <?= $_SESSION['membre']->getField('pseudo'); ?>
              <br>
              Email : <?= $_SESSION['membre']->getField('email'); ?>
         </p>
 
         <?php
-        if (isset($action) && $action=='editmdp'):
+        if (isset($action) && $action=='mdp'):
         ?>
         <form action="" method="post">
             <label for="mdp">Nouveau mot de passe</label>

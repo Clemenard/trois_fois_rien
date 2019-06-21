@@ -8,6 +8,9 @@ class MembreModel extends Model{
   public function inscription($infos){
     return $this->register($infos);
   }
+  public function updateMembre($infos){
+    return $this->update($infos);
+  }
 
   public function existsPseudo($pseudo){
     $requete = "SELECT * FROM " . $this->table." WHERE pseudo = :pseudo";

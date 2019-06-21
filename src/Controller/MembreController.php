@@ -32,7 +32,16 @@ public function connexion(){
 $params['erreur']= (!empty($erreur)) ? implode('<br>',$erreur) : '';
   return $this->render('layout.html','connexion.html',$params);
 }
+public function profil(){
+  if(isset($_SESSION['membre'])) {
+    $params['title']='Mon profil';
+    $params['erreur']= (!empty($erreur)) ? implode('<br>',$erreur) : '';
+    return $this->render('layout.html','profil.html',$params);
+  }
+  else{
+      $this->redirect($this->url.'/connexion.html');
 
+}}
 public function inscription(){
   if(!empty($_POST)){
     $erreur = array();
@@ -52,7 +61,7 @@ public function inscription(){
       $_POST['mdp']=$this->cryptMdp( $_POST['mdp']);
       $_POST['statut']=0;
       $id_user=$this->getModel()->insert($_POST);
-      $membre=$this->getModel()->select($_POST);
+      $membre=$this->getModel()->select($id_user);
       $this->createSession($membre);
       $this->redirect($this->url);
     }
@@ -70,14 +79,46 @@ public function inscription(){
 
   public function createSession($membre){
     $_SESSION['membre']=$membre;
-    $_SESSION['membre']->setField('mdp','');
   }
-  public function profil(){
 
-  }
   public function deconnexion(){
     unset($_SESSION['membre']);
-    $this->redirect($this->url.'membre/connexion');
+    $this->redirect($this->url . 'membre/connexion');
   }
+
+  public function modifProfil($action){
+    if(isset($_SESSION['membre'])) {
+      if(!empty($_POST)){
+        if(!empty($_POST['mdp'])){
+          $mdp=$this->cryptMdp($_POST['mdp']);
+          $this->getModel()->update($_SESSION['membre']->getField('id_membre'),array('mdp'=>$mdp));
+        }
+        if(isset($_POST['validmodif'])){
+          $erreur = array();
+          $champsvides=0;
+          foreach($_POST as $value){
+            if(empty(trim($value))) $champsvides++;}
+            if($champsvides){
+              $erreur[]="Il y'a ".$champsvides." champ(s) manquant(s).";  }
+            if(empty($erreur)){
+              unset($_POST['validmodif']);
+              $this->getModel()->update($_SESSION['membre']->getField('id_membre'),$_POST);
+              $membre=$this->getModel()->select($_SESSION['membre']->getField('id_membre'));
+              $this->createSession($membre);
+              $this->redirect($this->url);
+            }
+          }
+        }
+
+    $params['title']='Mon profil';
+    $params['action']=$action;
+    $params['erreur']= (!empty($erreur)) ? implode('<br>',$erreur) : '';
+    return $this->render('layout.html','profil.html',$params);
+  }
+  else{
+      $this->redirect($this->url.'/connexion.html');
+
+}}
+
 }
 ?>
