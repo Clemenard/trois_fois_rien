@@ -6,6 +6,40 @@ class CommandeController extends Controller{
 
   public $id_commande;
 
+  public function adminCommande(){
+
+    // tester si je suis admin
+    if(isset($_SESSION['membre']) && $_SESSION['membre']->isAdmin()){
+      $params['title'] = 'Admin Commandes';
+      $params['commandes'] = $this->getModel()->getallDetailsCommandes();
+      foreach($params['commandes'] as $ligne){
+        echo $ligne['id_commande'].'<br />';
+      $params['details_commandes'][$ligne['id_commande']]  =  $this->getModel()->getDetailsMyCommandes($ligne['id_commande']);
+      }
+
+      return $this->render('layout.html','adminCommande.html',$params);
+    }
+    else{
+      $this->redirect($this->url . 'membre/connexion');
+    }
+  }
+
+  public function changeStatut($idPlusStatut){
+    if( isset($_SESSION['membre']) && $_SESSION['membre']->isAdmin() ){
+      $tab= explode("-", $idPlusStatut);
+      switch($tab[1]){
+        case 2 : $statut='Envoyé';break;
+        case 3 : $statut='Livré';break;
+        default : $statut='en cours de traitement';break;
+      }
+      $this->getModel()->update($tab[0],array('etat'=>$statut));
+      $this->redirect($this->url . 'commande/adminCommande');
+    }
+    else{
+      $this->redirect($this->url . 'membre/connexion');
+    }
+  }
+
   public function afficheDetailsCommande($id){
 
 
@@ -19,7 +53,7 @@ class CommandeController extends Controller{
       $params['commande'] = $this->getModel()->getMyCommande($id);
       return $this->render('layout.html','detailscommande.html',$params);
   }
-  public function detailsCommande(){
+  public function afficheCommande(){
 
       if(isset($_POST['validerpanier'])){
         $this->validationCommande();

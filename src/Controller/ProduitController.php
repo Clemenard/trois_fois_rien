@@ -18,7 +18,7 @@ class ProduitController extends Controller{
   // affiche les produits d'une catégorie selectionnée
   public function afficheCategorie($cat){
 
-    $produits = $this->getModel()->getAllProduitByCategorie($cat);
+    $produits = $this->getModel()->getAllProduitsByCategories($cat);
     $categories = $this->getModel()->getAllCategories();
     $params = array(
       'produits' => $produits,
@@ -58,12 +58,12 @@ class ProduitController extends Controller{
       $params = array(
         'title' => $title,
         'produits' => $produits,
-        'nbResultat' => $nbResultat
+        'nbresult' => $nbResultat
       );
       $this->render('layout.html','recherche.html',$params);
     }
     else{
-      $this->selectAllProduit();
+      $this->all();
     }
 
   }
@@ -153,6 +153,7 @@ class ProduitController extends Controller{
           $this->getModel()->insertProduit($_POST);
           $this->redirect($this->url.'produit/adminProduit');
         }
+
       }
 
 
@@ -166,6 +167,7 @@ class ProduitController extends Controller{
       $this->redirect($this->url . 'membre/connexion');
     }
   }
+
 
 
   public function editProduit($id){

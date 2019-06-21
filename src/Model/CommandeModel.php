@@ -40,4 +40,24 @@ class CommandeModel extends Model{
     }
   }
 
+  public function getallDetailsCommandes(){
+
+      $requete = "SELECT * FROM commande c, membre m, produit p, details_commande d WHERE  d.id_produit=p.id_produit AND d.id_commande=c.id_commande AND c.id_membre = m.id_membre";
+      $resultat = $this->getDb()->prepare($requete);
+      $resultat->execute();
+      $donnees = $resultat->fetchAll();
+      if($donnees) return $donnees;
+      else return false;
+    }
+    public function getDetailsMyCommandes($id){
+
+        $requete = "SELECT * FROM commande c, produit p, details_commande d WHERE  d.id_produit=p.id_produit AND d.id_commande=c.id_commande AND c.id_commande=:id";
+        $resultat = $this->getDb()->prepare($requete);
+              $resultat->bindValue(':id',$id,PDO::PARAM_INT);
+        $resultat->execute();
+        $donnees = $resultat->fetchAll();
+        if($donnees) return $donnees;
+        else return false;
+      }
+
 }

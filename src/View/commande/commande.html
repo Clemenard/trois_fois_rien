@@ -15,7 +15,7 @@
             </thead>
             <tbody>
                 <?php
-                var_dump($commandes);foreach($commandes as $commande) : ?>
+                foreach($commandes as $commande) : ?>
                     <tr>
                         <td><?= $commande->getField('id_commande') ?> <a href="<?= $url ?>commande/afficheDetailsCommande/<?= $commande->getField('id_commande') ?>"><i class="far fa-eye"></i></a></td>
                         <td><?= date('d/m/Y à H:i:s',strtotime($commande->getField('date_enregistrement'))) ?></td>
