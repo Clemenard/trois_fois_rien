@@ -3,23 +3,23 @@
 
 if ($_SESSION['membre'] && $_SESSION['membre']->isAdmin()):
 ?>
-    <a href="<?= $url ?>produit/ajoutProduit" class="btn btn-primary">Ajouter un produit</a>
+    <a href="<?= $url ?>produit/ajoutProduit" class="btn btn-success">Ajouter un produit</a>
 
     <div class="table-responsive">
         <table class="table table-bordered table-striped">
             <thead>
                 <tr>
-                    <th>ID</th>
-                    <th>Ref.</th>
-                    <th>Categ</th>
+                  <th><a href="<?= $url ?>produit/adminProduit/id_produit">ID</a></th>
+                  <th><a href="<?= $url ?>produit/adminProduit/reference">Ref.</a></th>
+                  <th><a href="<?= $url ?>produit/adminProduit/categorie">Categ</a></th>
                     <th>Titre</th>
                     <th>Description</th>
-                    <th>Couleur</th>
-                    <th>Taille</th>
-                    <th>Public</th>
+                    <th><a href="<?= $url ?>produit/adminProduit/couleur">Couleur</a></th>
+                    <th><a href="<?= $url ?>produit/adminProduit/taille">Taille</a></th>
+                    <th><a href="<?= $url ?>produit/adminProduit/public">Public</a></th>
                     <th>Photo</th>
-                    <th>Prix</th>
-                    <th>Stock</th>
+                    <th><a href="<?= $url ?>produit/adminProduit/prix">Prix</a></th>
+                    <th><a href="<?= $url ?>produit/adminProduit/stock">Stock</a></th>
                     <th colspan="2">Actions</th>
                 </tr>
             </thead>
@@ -32,7 +32,7 @@ if ($_SESSION['membre'] && $_SESSION['membre']->isAdmin()):
                         foreach($champs as $index => $value)
                         {
                             if ($index == 'photo') {
-                                $value = '<img src="'. $url .'photo/'. ($produit->getField('photo')) .'" class="thumbnail img-fluid">';
+                                $value = '  <a href="'. $url .'produit/affiche/'. $produit->getField('id_produit').'"><img src="'. $url .'photo/'. ($produit->getField('photo')) .'" class="thumbnail img-fluid"></a>';
                             }
                             if ($index == 'description' && strlen($value)>75) { ?><td class='desc-produit'><?= substr($value,0,75).' ...' ?></td><?
 

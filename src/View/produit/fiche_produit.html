@@ -16,7 +16,9 @@
                 <p class="text-center">Catégorie : <?= $produit->getField('categorie') ?></p>
                 <p class="text-center">Couleur : <?= $produit->getField('couleur') ?></p>
                 <p class="text-center">Taille : <?= $produit->getField('taille') ?></p>
-                <p class="text-center">Description : <?= $produit->getField('description') ?></p>
+                <? if(strlen($produit->getField('description'))>150)  { ?>
+                  <p class="text-center"> Description : <?= substr($produit->getField('description'),0,150).' ...' ?>  </p><? } else{ ?>
+                <p class="text-center">Description : <?= $produit->getField('description') ?></p><? } ?>
                 <p class="text-center">Prix : <?= $produit->getField('prix') ?> €</p><hr>
                 <?php if ( $produit->getField('stock') > 0 ) :?>
                     <em>Nombre de produit(s) disponible(s) : <?= $produit->getField('stock') ?></em><hr>
@@ -27,10 +29,10 @@
                         <select class="form-control" id="quantite" name="quantite">
                             <?php
                                 for($i=1; $i<=$produit->getField('stock') && $i<=5; $i++ ): ?>
-                                <option><?= $i ?></option>  
-                            <?php endfor; ?>    
+                                <option><?= $i ?></option>
+                            <?php endfor; ?>
                         </select><br>
-                        <input type="submit" class="btn btn-primary col-12" name="ajout_panier" value="Ajout au panier">
+                        <input type="submit" class="btn btn-success col-12" name="ajout_panier" value="Ajout au panier">
                     </form>
                 <?php else : ?>
                     <div class="alert alert-danger text-center">
@@ -42,4 +44,26 @@
     </div>
     <!-- on prévoit un encart de produits suggérés-->
 
-</div>    
+
+
+    <?  if($autresProduits) : ?>
+    <h2 class="text-center w-100 m-5">Ces articles  de la catégorie <?=  $produit->getField('categorie') ?> pourraient vous plaire</h2>
+        <div class="more d-flex w-100">
+          <?
+    foreach ($autresProduits as $autreProduit): ?>
+
+        <div class="card m-1" style="width: 18rem;">
+            <a href="<?= $url ?>produit/affiche/<?= $autreProduit->getField('id_produit') ?>">
+              <img src="<?= $url ?>photo/<?= $autreProduit->getField('photo') ?>" alt="" class="card-img img-fluid">
+            </a>
+            <div class="card-body">
+                <h3><?= $autreProduit->getField('titre') ?></h3>
+                <? if(strlen($autreProduit->getField('description'))>150)  { ?>
+                  <p class="text-center"> Description : <?= substr($autreProduit->getField('description'),0,150).' ...' ?>  </p><? } else{ ?>
+                <p class="text-center">Description : <?= $autreProduit->getField('description') ?></p><? } ?>
+            </div>
+          </div>
+<?php endforeach;
+endif ; ?>
+          </div>
+</div>

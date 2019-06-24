@@ -13,11 +13,11 @@ class MembreModel extends Model{
   }
 
   public function existsPseudo($pseudo){
-    $requete = "SELECT * FROM " . $this->table." WHERE pseudo = :pseudo";
+    $requete = "SELECT * FROM " .$this->getTable(true)." WHERE pseudo = :pseudo";
     $resultat = $this->getDb()->prepare($requete);
     $resultat->bindValue(':pseudo',$pseudo,PDO::PARAM_STR);
     $resultat->execute();
-    $resultat->setFetchMode(PDO::FETCH_CLASS,'Entity\\' . $this->table);
+    $resultat->setFetchMode(PDO::FETCH_CLASS,'Entity\\' .ucfirst($this->getTable()));
     $donnees = $resultat->fetch();
     if( $donnees ) return $donnees;
     else return false;

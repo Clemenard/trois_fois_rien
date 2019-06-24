@@ -37,7 +37,7 @@
                 </div>
         </div>
         <br>
-        <input type="submit" class="btn btn-primary" name="validmodif" value="Valider">
+        <input type="submit" class="btn btn-success" name="validmodif" value="Valider">
         <a href="<?= $url ?>membre/profil" class="btn btn-warning">Annuler</a>
     </form>
 
@@ -47,6 +47,9 @@
     else : ?>
     <p>
         Nom, Prénom : <?= $_SESSION['membre']->getField('nom').' '.$_SESSION['membre']->getField('prenom') ?>
+    </p>
+    <p>
+      Expérience : <?= $_SESSION['membre']->getField('experience') ?> xp.
     </p>
     Adresse:
     <p>
@@ -58,7 +61,7 @@
     <!-- 1 / ajout d'un lien permettant l'édition
             => methode modifProfil à prévoir coté controller avec un param (ici coord)
     -->
-    <a href="<?= $url ?>membre/modifProfil/coord" class="btn btn-primary">Modifier mes coordonnées</a>
+    <a href="<?= $url ?>membre/modifProfil/coord" class="btn btn-success">Modifier mes coordonnées</a>
 
     <?php endif; ?>
     </div>
@@ -77,13 +80,13 @@
         <form action="" method="post">
             <label for="mdp">Nouveau mot de passe</label>
             <input type="password" name="mdp" id="mdp"><br>
-            <input type="submit" name="validmdp" value="Valider le mot de passe" class="btn btn-primary">
+            <input type="submit" name="validmdp" value="Valider le mot de passe" class="btn btn-success">
             <a href="<?= $url ?>membre/profil" class="btn btn-warning">Annuler</a>
         </form>
         <?php
         else :
         ?>
-        <a href="<?= $url ?>membre/modifProfil/mdp" class="btn btn-primary">Modifier mon mot de passe</a>
+        <a href="<?= $url ?>membre/modifProfil/mdp" class="btn btn-success">Modifier mon mot de passe</a>
         <?php endif; ?>
     </div>
 </div>

@@ -10,7 +10,7 @@
                     <img src="<?= $url ?>photo/<?= $produit->getField('photo') ?>" alt="" class="card-img img-fluid">
                 </a>
                 <p class="text-center"><?= $produit->getField('prix') ?> €</p>
-                <a href="<?= $url ?>produit/affiche/<?= $produit->getField('id_produit') ?>" class="btn btn-primary">Voir la fiche</a>
+                <a href="<?= $url ?>produit/affiche/<?= $produit->getField('id_produit') ?>" class="btn btn-success">Voir la fiche</a>
             </div>
         <!-- fin vignette -->
         <?php endforeach; ?>

@@ -20,9 +20,12 @@ class ProduitController extends Controller{
 
     $produits = $this->getModel()->getAllProduitsByCategories($cat);
     $categories = $this->getModel()->getAllCategories();
+      if($cat)  $selected = $cat;
+      else $selected='';
     $params = array(
       'produits' => $produits,
-      'categories' => $categories
+      'categories' => $categories,
+      'selected' =>$selected
     );
     return $this->render('layout.html','boutique.html',$params);
   }
@@ -30,6 +33,7 @@ class ProduitController extends Controller{
   public function affiche($id){
     $message = '';
     $produit = $this->getModel()->selectProduit($id);
+    $autresProduits = $this->getModel()->getThreeOtherProduitsByCategories($produit->getField('categorie'),$id);
 
     // traiter un ajout au panier
     if( !empty($_POST) ){
@@ -40,7 +44,8 @@ class ProduitController extends Controller{
     // template : fiche_produit.html
     $params = array(
       'produit' => $produit,
-      'message' => $message
+      'message' => $message,
+      'autresProduits' => $autresProduits,
     );
     return $this->render('layout.html','fiche_produit.html',$params);
 
@@ -110,12 +115,12 @@ class ProduitController extends Controller{
   }
 
   // methodes admin de gestion des produits
-  public function adminProduit(){
+  public function adminProduit($order=''){
 
     // tester si je suis admin
     if(isset($_SESSION['membre']) && $_SESSION['membre']->isAdmin()){
       $params['title'] = 'Admin Produits';
-      $params['produits'] = $this->getModel()->selectAllProduit();
+      $params['produits'] = $this->getModel()->selectAllProduit($order);
       return $this->render('layout.html','adminProduit.html',$params);
     }
     else{

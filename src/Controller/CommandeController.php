@@ -42,17 +42,13 @@ class CommandeController extends Controller{
 
   public function afficheDetailsCommande($id){
 
+if(!empty($id)){
 
-    $requete = "SELECT * FROM details_commande c,produit p WHERE id_commande = :id_commande and p.id_produit=c.id_produit";
-    $resultat = $this->getModel()->getDb()->prepare($requete);
-    $resultat->bindValue(':id_commande',$id,\PDO::PARAM_INT);
-    $resultat->execute();
-    $donnees = $resultat->fetchAll();
-    $params['details_commande'] = $donnees;
+    $params['details_commande'] = $this->getModel()->getDetails($id);
       $params['title'] = 'Détail de ma commande';
       $params['commande'] = $this->getModel()->getMyCommande($id);
       return $this->render('layout.html','detailscommande.html',$params);
-  }
+  }}
   public function afficheCommande(){
 
       if(isset($_POST['validerpanier'])){
@@ -79,6 +75,10 @@ class CommandeController extends Controller{
         'etat' => 'en cours de traitement'
       );
       $this->id_commande = $this->getModel()->registerCommande($infos);
+      $membre = new Model/Membre;
+      $_SESSION['membre']->setField('experience',$montant+$_SESSION['membre']->getField('experience'));
+      $membre->update(array('experience'=>$_SESSION['membre']->getField('experience')));
+
       // insertion des détails de la commande
       for($i=0; $i<count($_SESSION['panier']['id_produit']);$i++){
         $details = array(

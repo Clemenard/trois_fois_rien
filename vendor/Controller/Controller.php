@@ -10,7 +10,8 @@ public function __construct(){
   $config=new Config;
   $this->url=$config->getParametersUri();
 }
-public function getModel(){
+public function getModel($model=''){
+  if(!empty($model)) return new $model;
   return $this->model;
 }
 public function redirect($adresse){

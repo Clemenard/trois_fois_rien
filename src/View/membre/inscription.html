@@ -28,7 +28,7 @@
 
 
         <div class="form-check form-check-inline">
-            <input type="radio" name="civilite" value="m" class="form-check-input" 
+            <input type="radio" name="civilite" value="m" class="form-check-input"
             <?= (!isset($_POST['civilite']) || ($_POST['civilite'] && $_POST['civilite'] =='m')) ? 'checked' : '' ?> id="inlineRadio1">
             <label class="form-check-label" for="inlineRadio1">Monsieur</label>
         </div>
@@ -69,5 +69,5 @@
         </div>
 
     </fieldset>
-	<input type="submit"  class="btn btn-primary" value="S'inscrire">
+	<input type="submit"  class="btn btn-success" value="S'inscrire">
 </form>

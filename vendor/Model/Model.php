@@ -14,7 +14,10 @@ public function __construct(){
 public function getDb(){
   return $this->db;
 }
-public function getTable(){
+public function getTable($prod=false){
+  // if($prod)   return "troisfoisrien_".$this->table;
+  // else return $this->table;
+  // Localhost
   return $this->table;
 }
 public function execRequest($req,$params=array()){
@@ -35,15 +38,17 @@ public function execRequest($req,$params=array()){
 
 
 public function getKeys(){
-  $q=$thisexecRequest('DESC '.$this->table);
+  $q=$thisexecRequest('DESC '.$this->getTable(true));
   $r=$q->fetchAll();
   return array_slice($r,1);// on retourne tout sauf l'ID
 }
 
-public function selectAll($order=null){
-  if(!is_null($order)) $order='ORDER BY'.$order;
-    $q=$this->execRequest('SELECT * FROM '.$this->table.' '.$order);
-    $data=$q->fetchAll(PDO::FETCH_CLASS,'Entity\\'.ucfirst($this->table));
+public function selectAll($order='',$desc=''){
+  if(!empty($order)) $order=' ORDER BY '.$order;
+if(!empty($desc)) $desc='DESC';
+    $q=$this->execRequest('SELECT * FROM '.$this->getTable(true));
+    // .' '.$order.' '.$desc
+    $data=$q->fetchAll(PDO::FETCH_CLASS,'Entity\\'.ucfirst($this->getTable()));
     if(!$data){
       return false;
     }
@@ -53,8 +58,8 @@ public function selectAll($order=null){
 
 public function select($id){
 
-    $q=$this->execRequest('SELECT * FROM '.$this->table.' WHERE id_'.$this->table.' = :id',array('id'=>$id));
-      $q->setFetchMode(PDO::FETCH_CLASS,'Entity\\'.ucfirst($this->table));
+    $q=$this->execRequest('SELECT * FROM '.$this->getTable(true).' WHERE id_'.$this->getTable().' = :id',array('id'=>$id));
+      $q->setFetchMode(PDO::FETCH_CLASS,'Entity\\'.ucfirst($this->getTable()));
     $data=$q->fetch();
     if(!$data){
       return false;
@@ -64,11 +69,11 @@ public function select($id){
   }
 
 public function delete($id){
-  $q=$this->execRequest('DELETE FROM '.$this->table.' WHERE id_'.$this->table.' = :id',array('id'=>$id));
+  $q=$this->execRequest('DELETE FROM '.$this->getTable(true).' WHERE id_'.$this->getTable().' = :id',array('id'=>$id));
 }
 
 public function insert($infos){
-  $q=$this->execRequest('INSERT INTO '.$this->table.' ('.implode(',', array_keys($infos)).') VALUES (:'.implode(', :', array_keys($infos)).')',$infos);
+  $q=$this->execRequest('INSERT INTO '.$this->getTable(true).' ('.implode(',', array_keys($infos)).') VALUES (:'.implode(', :', array_keys($infos)).')',$infos);
   return $this->getDb()->lastInsertId();
 }
 
@@ -77,15 +82,15 @@ public function update($id,$infos){
     $newValues[]="$key = :$key";
   }
 $infos['id']=$id;
-  $q=$this->execRequest('UPDATE '.$this->table.' SET '.implode(',',$newValues) .' WHERE id_'.$this->table.' = :id',$infos);
+  $q=$this->execRequest('UPDATE '.$this->getTable(true).' SET '.implode(',',$newValues) .' WHERE id_'.$this->getTable().' = :id',$infos);
 }
 
 public function deleteAll(){
-  $q=$this->execRequest('DELETE FROM '.$this->table);
+  $q=$this->execRequest('DELETE FROM '.$this->getTable(true));
 }
 
 public function truncate(){
-  $q=$this->execRequest('TRUNCATE TABLE '.$this->table);
+  $q=$this->execRequest('TRUNCATE TABLE '.$this->getTable(true));
 }
 }
 
